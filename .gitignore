@@ -1,0 +1,11 @@
+*~
+/secrets.yaml
+/known_devices.yaml
+/tts
+/.ios.conf
+/.uuid
+
+**/__pycache__
+*.log
+*.db*
+

@@ -1,0 +1,89 @@
+homeassistant:
+  name: Home
+  latitude: 35.69
+  longitude: 139.69
+  elevation: 0
+  unit_system: metric
+  time_zone: Asia/Tokyo
+  customize:
+    switch.dining_light:
+      google_assistant_type: light
+    climate.dining_aircon:
+      friendly_name: ダイニングのエアコン
+    script.oyasumi:
+      friendly_name: もう寝よう
+
+http:
+  api_password: !secret http_password
+
+group: !include groups.yaml
+automation: !include automations.yaml
+
+frontend:
+
+config:
+
+updater:
+
+conversation:
+
+history:
+
+logbook:
+
+map:
+
+sun:
+
+tts:
+  - platform: google
+
+cloud:
+
+ios:
+
+sensor:
+  - platform: yr
+
+media_player:
+  - platform: cast
+
+google_assistant:
+  project_id: kihomeextender
+  client_id: google_assistant
+  access_token: !secret google_assistant_access_token
+  api_key: !secret google_assistant_api_key
+  exposed_domains:
+    - switch
+    - light
+    - climate
+    - script
+        
+switch:
+  platform: command_line
+  switches:
+    dining_light:
+      friendly_name: ダイニングのライト
+      command_on: "/home/pi/bin/dining_light_on.sh"
+      command_off: "/home/pi/bin/dining_light_off.sh"
+
+climate dining_aircon:
+  platform: command_line
+  command_off: "/home/pi/bin/dining_aircon_off.sh"
+  command_heater: "/home/pi/bin/dining_aircon_on.sh"
+#  command_cooler: 
+  name: Dining Aircon
+  min_temp: 20
+  max_temp: 30
+  target_temp: 26
+
+shell_command:
+  heat_on_timer_at_4: '/home/pi/bin/dining_aircon_morning_heat.py'
+  dining_light_force_off: '/home/pi/bin/dining_light_off.sh'
+
+script:
+  oyasumi:
+    sequence:
+    - service: shell_command.dining_light_force_off
+    - service: shell_command.heat_on_timer_at_4
+
