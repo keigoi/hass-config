@@ -4,8 +4,9 @@
 /tts
 /.ios.conf
 /.uuid
+/bin/irkit_keys
 
-**/__pycache__
+__pycache__
+*.pyc
 *.log
 *.db*
-

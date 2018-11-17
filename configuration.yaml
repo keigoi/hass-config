@@ -64,13 +64,13 @@ switch:
   switches:
     dining_light:
       friendly_name: ダイニングのライト
-      command_on: "/home/pi/bin/dining_light_on.sh"
-      command_off: "/home/pi/bin/dining_light_off.sh"
+      command_on: "/home/homeassistant/.homeassistant/bin/dining_light_on.sh"
+      command_off: "/home/homeassistant/.homeassistant/bin/dining_light_off.sh"
 
 climate dining_aircon:
   platform: command_line
-  command_off: "/home/pi/bin/dining_aircon_off.sh"
-  command_heater: "/home/pi/bin/dining_aircon_on.sh"
+  command_off: "/home/homeassistant/.homeassistant/bin/dining_aircon_off.sh"
+  command_heater: "/home/homeassistant/.homeassistant/bin/dining_aircon_on.sh"
 #  command_cooler: 
   name: Dining Aircon
   min_temp: 20
@@ -78,8 +78,8 @@ climate dining_aircon:
   target_temp: 26
 
 shell_command:
-  heat_on_timer_at_4: '/home/pi/bin/dining_aircon_morning_heat.py'
-  dining_light_force_off: '/home/pi/bin/dining_light_off.sh'
+  heat_on_timer_at_4: '/home/homeassistant/.homeassistant/bin/dining_aircon_morning_heat.py'
+  dining_light_force_off: '/home/homeassistant/.homeassistant/bin/dining_light_off.sh'
 
 script:
   oyasumi:
