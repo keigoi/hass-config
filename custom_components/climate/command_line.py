@@ -24,7 +24,7 @@ from homeassistant.helpers import condition
 from homeassistant.helpers.event import (
     async_track_state_change, async_track_time_interval)
 import homeassistant.helpers.config_validation as cv
-from homeassistant.helpers.restore_state import async_get_last_state
+from homeassistant.helpers.restore_state import RestoreEntity
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -68,7 +68,7 @@ def async_setup_platform(hass, config, async_add_devices, discovery_info=None):
         min_temp, max_temp, target_temp)])
 
 
-class CommandThermostat(ClimateDevice):
+class CommandThermostat(ClimateDevice, RestoreEntity):
     """Representation of a Generic Thermostat device."""
 
     def __init__(self, hass, name, command_off, command_heater, command_cooler,
@@ -92,8 +92,7 @@ class CommandThermostat(ClimateDevice):
     def async_added_to_hass(self):
         """Run when entity about to be added."""
         # Check If we have an old state
-        old_state = yield from async_get_last_state(self.hass,
-                                                    self.entity_id)
+        old_state = yield from self.async_get_last_state()
         if old_state is not None:
             # If we have no initial temperature, restore
             if self._target_temp is None:

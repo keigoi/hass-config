@@ -12,6 +12,8 @@ homeassistant:
       friendly_name: ダイニングのエアコン
     script.oyasumi:
       friendly_name: もう寝よう
+    script.ohayou:
+      friendly_name: おはよう
 
 http:
   api_password: !secret http_password
@@ -50,8 +52,6 @@ media_player:
 
 google_assistant:
   project_id: kihomeextender
-  client_id: google_assistant
-  access_token: !secret google_assistant_access_token
   api_key: !secret google_assistant_api_key
   exposed_domains:
     - switch
@@ -66,6 +66,14 @@ switch:
       friendly_name: ダイニングのライト
       command_on: "/home/homeassistant/.homeassistant/bin/dining_light_on.sh"
       command_off: "/home/homeassistant/.homeassistant/bin/dining_light_off.sh"
+    living_bookshelf_light:
+      friendly_name: リビングの本棚ライト
+      command_on: "/home/homeassistant/.homeassistant/bin/living_ifttt_light.sh home_bookshelflight_on"
+      command_off: "/home/homeassistant/.homeassistant/bin/living_ifttt_light.sh home_bookshelflight_off"
+    living_stand_light:
+      friendly_name: リビングのスタンドライト
+      command_on: "/home/homeassistant/.homeassistant/bin/living_ifttt_light.sh home_standlight_on"
+      command_off: "/home/homeassistant/.homeassistant/bin/living_ifttt_light.sh home_standlight_off"
 
 climate dining_aircon:
   platform: command_line
@@ -78,12 +86,14 @@ climate dining_aircon:
   target_temp: 26
 
 shell_command:
-  heat_on_timer_at_4: '/home/homeassistant/.homeassistant/bin/dining_aircon_morning_heat.py'
-  dining_light_force_off: '/home/homeassistant/.homeassistant/bin/dining_light_off.sh'
+  script_oyasumi: "/home/homeassistant/.homeassistant/bin/script_oyasumi.sh"
+  script_ohayou: "/home/homeassistant/.homeassistant/bin/script_ohayou.sh"
 
 script:
   oyasumi:
     sequence:
-    - service: shell_command.dining_light_force_off
-    - service: shell_command.heat_on_timer_at_4
+    - service: shell_command.script_oyasumi
+  ohayou:
+    sequence:
+    - service: shell_command.script_ohayou
 
