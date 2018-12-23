@@ -16,7 +16,6 @@ homeassistant:
       friendly_name: おはよう
 
 http:
-  api_password: !secret http_password
 
 group: !include groups.yaml
 automation: !include automations.yaml
