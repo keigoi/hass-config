@@ -6,8 +6,12 @@ homeassistant:
   unit_system: metric
   time_zone: Asia/Tokyo
   customize:
-    switch.dining_light:
-      google_assistant_type: light
+    light.dining_light:
+      friendly_name: ダイニングのライト
+    light.living_bookshelf_light:
+      friendly_name: リビングの本棚ライト
+    light.living_stand_light:
+      friendly_name: リビングのスタンドライト
     climate.dining_aircon:
       friendly_name: ダイニングのエアコン
     script.oyasumi:
@@ -41,19 +45,20 @@ tts:
 
 cloud:
 
-ios:
+# ios:
 
 sensor:
   - platform: yr
 
-media_player:
-  - platform: cast
+# cast:
+#   media_player:
+
 
 google_assistant:
   project_id: kihomeextender
   api_key: !secret google_assistant_api_key
   exposed_domains:
-    - switch
+#    - switch
     - light
     - climate
     - script
@@ -62,18 +67,26 @@ switch:
   platform: command_line
   switches:
     dining_light:
-      friendly_name: ダイニングのライト
       command_on: "/home/homeassistant/.homeassistant/bin/dining_light_on.sh"
       command_off: "/home/homeassistant/.homeassistant/bin/dining_light_off.sh"
     living_bookshelf_light:
-      friendly_name: リビングの本棚ライト
       command_on: "/home/homeassistant/.homeassistant/bin/living_ifttt_light.sh home_bookshelflight_on"
       command_off: "/home/homeassistant/.homeassistant/bin/living_ifttt_light.sh home_bookshelflight_off"
     living_stand_light:
-      friendly_name: リビングのスタンドライト
       command_on: "/home/homeassistant/.homeassistant/bin/living_ifttt_light.sh home_standlight_on"
       command_off: "/home/homeassistant/.homeassistant/bin/living_ifttt_light.sh home_standlight_off"
 
+light:
+  - platform: switch
+    entity_id: switch.dining_light
+    name: Dining light
+  - platform: switch
+    entity_id: switch.living_bookshelf_light
+    name: Living bookshelf light
+  - platform: switch
+    entity_id: switch.living_stand_light
+    name: Living stand light
+    
 climate dining_aircon:
   platform: command_line
   command_off: "/home/homeassistant/.homeassistant/bin/dining_aircon_off.sh"
